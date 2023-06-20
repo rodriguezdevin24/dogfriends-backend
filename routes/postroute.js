@@ -5,9 +5,9 @@ const verifyAuth = require('../middlewares/veryAuth.js');
 
 
 // This route does not require authentication
-router.get('/posts', postController.getPosts); //Working
+router.get('/posts', postController.getPosts); //Working both
 
-router.get('/posts/:id', postController.getPostById); //Working
+router.get('/posts/:id', postController.getPostById); //Working both
 
 // This route requires authentication
 router.post('/posts', verifyAuth, postController.createPost); //Working, but is it referencing correctly?
