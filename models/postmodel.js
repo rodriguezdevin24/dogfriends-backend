@@ -6,7 +6,10 @@ const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
   },
   text: String,
-  date: Date,
+  date: {
+    type: Date,
+    default: Date.now,
+  },
   photo: String,
 });
 
