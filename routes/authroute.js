@@ -84,6 +84,8 @@ router.post('/signup', async (req, res) => {
       status: 200,
       message: `Successfully created user: ${user.username}`,
       token,
+      user: { id: user._id }, // Include the user ID
+      dog: { id: dog._id }, // Include the dog ID
     });
   } catch (error) {
     res.status(400).json({
@@ -126,6 +128,8 @@ router.post('/signin', async (req, res) => {
       id: user._id,
       username: user.username,
       exp: getExpiration(),
+      // user: { id: user._id }, // Include the user ID
+      // dog: { id: dog._id }, // Include the dog ID
     };
 
     // sign the jwt
@@ -136,6 +140,8 @@ router.post('/signin', async (req, res) => {
       status: 200,
       message: `Successfully signed in ${user.id}`,
       token: token,
+      // user: { id: user._id }, // Include the user ID
+      // dog: { id: dog._id }, // Include the dog ID
     });
   } catch (error) {
     res.status(404).json({
