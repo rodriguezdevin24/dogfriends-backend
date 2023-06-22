@@ -3,6 +3,7 @@ const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/ownermodel");
+const DogModel = require("../models/dogmodel");
 const verifyAuth = require("../middlewares/veryAuth.js");
 
 const SECRET_KEY = process.env.SECRET_KEY;
@@ -41,16 +42,35 @@ router.get('/isTokenValid', verifyAuth, async (req, res) => {
 //working
 router.post('/signup', async (req, res) => {
   try {
-    // handle user input
-    const { username, password: plainPassword } = req.body;
-    // hash the password
+    const { username, password: plainPassword, dogs} = req.body;
+
+    const dog = await DogModel.create({
+      name: dogs
+    });
+
     const password = await bcrypt.hash(plainPassword, 10);
-    // create new user
+    
     const user = await User.create({
       username,
       password,
       handle: username,
+      dogs: dog._id
     });
+
+    const updatedDog = await DogModel.findOneAndUpdate(
+      { name: dogs },
+      { owner: user._id },
+      { new: true }
+    );
+
+    console.log(updatedDog);
+
+    if (!updatedDog) {
+      return res.status(404).json({
+        status: 404,
+        error: `Dog with ID ${id} not found.`,
+      });
+    }
 
     const data = {
       id: user._id,
@@ -58,13 +78,12 @@ router.post('/signup', async (req, res) => {
       exp: getExpiration(),
     };
 
-    // Take user data, and expiration, and create a token along with the SECRET_KEY
     const token = jwt.sign(data, SECRET_KEY);
 
-    // return the token
     return res.status(200).json({
       status: 200,
       message: `Successfully created user: ${user.username}`,
+      token,
     });
   } catch (error) {
     res.status(400).json({
@@ -115,7 +134,7 @@ router.post('/signin', async (req, res) => {
     // return the token
     return res.status(200).json({
       status: 200,
-      message: `Successfully signed in @${user.username}`,
+      message: `Successfully signed in ${user.id}`,
       token: token,
     });
   } catch (error) {
