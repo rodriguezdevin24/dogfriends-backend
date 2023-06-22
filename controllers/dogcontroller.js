@@ -10,6 +10,17 @@ exports.getDogs = async (req, res) => {
     }
 };
 
+exports.getDogByOwnerId = async (req, res) => {
+    try {
+        const dogs = await DogModel.find({owner: req.params.id})
+        console.log(req.params.id)
+        res.json(dogs)
+        // Populate method?
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 exports.getDogById = async (req, res) => {
     try {
         const dog = await DogModel.findById(req.params.id);
@@ -24,7 +35,9 @@ exports.createDog = async (req, res) => {
     try {
         const { name, image, caption, breed, birthday, ownerName } = req.body;
         const owner = await Owner.findOne({ username: ownerName });
-        console.log(ownerName);
+        console.log(owner, "here");
+        console.log(req.username, "also here")
+        console.log(req.data, "maybe here?")
         if (!owner) {
             throw new Error(`Owner ${ownerName} doesn't exist`);
         }

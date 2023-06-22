@@ -7,11 +7,11 @@ const DogSchema = new mongoose.Schema({
   breed: String,
   birthday: Date,
   owner: {
-    ref: 'Owner',
+    ref: 'OwnerModel',
     type: mongoose.Schema.Types.ObjectId,
   },
   posts: [{
-    ref: 'Post',
+    ref: 'PostModel',
     type: mongoose.Schema.Types.ObjectId,
   }],
 });
