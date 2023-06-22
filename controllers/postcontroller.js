@@ -1,4 +1,5 @@
 const Post = require('../models/postmodel'); // Adjust the path and file name to postmodel
+const Dog = require('../models/dogmodel'); // Adjust the path and file name to postmodel
 
 // Handler to get all posts
 exports.getPosts = async (req, res) => {
@@ -9,7 +10,6 @@ exports.getPosts = async (req, res) => {
         res.status(500).json({ message: "Error retrieving posts", error: error });
     }
 };
-
 // Handler to get a post by ID
 exports.getPostById = async (req, res) => {
     try {
@@ -29,9 +29,13 @@ exports.getPostById = async (req, res) => {
 // Handler to create a new post
 exports.createPost = async (req, res) => {
     try {
+        console.log(req.body)
+        //Use the dog id to go and get the dog name from the db
+        dogData = await Dog.findById(req.body.dogId)
         const newPost = new Post({
             ...req.body,
-            user: req.id // Here, we're associating the post with the authenticated user.
+            dog: req.id,
+            author: dogData.name
         });
 console.log (newPost);
         const savedPost = await newPost.save();

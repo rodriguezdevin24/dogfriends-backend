@@ -55,13 +55,36 @@ async function seedDatabase() {
 
     // Create posts
     const post1 = new PostModel({
-        user: owner1._id,
-        text: 'Took Buddy for a walk today!',
+        dog: dog1._id,
+        text: 'I went for a walk today!',
+        date: new Date(),
+        photo: 'https://example.com/buddy_walk.jpg'
+    });
+    await post1.save();
+
+    const post2 = new PostModel({
+        dog: dog1._id,
+        text: 'I pooped on the couch',
         date: new Date(),
         photo: 'https://example.com/buddy_walk.jpg',
     });
+    await post2.save();
 
-    await post1.save();
+    const post3 = new PostModel({
+        dog: dog2._id,
+        text: 'I think Buddy is kinda hot',
+        date: new Date(),
+        photo: '',
+    });
+    await post3.save();
+
+    const post4 = new PostModel({
+        dog: dog2._id,
+        text: 'Is there a dog heaven?',
+        date: new Date(),
+        photo: '',
+    });
+    await post4.save();
 
     console.log('Data seeded successfully');
     mongoose.connection.close();
