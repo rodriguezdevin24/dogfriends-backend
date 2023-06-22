@@ -36,6 +36,7 @@ exports.createOwner = async (req, res) => {
 exports.updateOwner = async (req, res) => {
     try {
         const updatedOwner = await ownermodel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        
         res.status(200).json(updatedOwner);
     } catch (error) {
         res.status(400).json({ message: error.message });

@@ -8,6 +8,7 @@ const verifyAuth = (req, res, next) => {
   try {
     // extract token from headers
     const token = req.headers.authorization;
+    console.log(token)
     // If token doesn't exist, we can return an error
     if (!token) {
       return res.status(401).json({
