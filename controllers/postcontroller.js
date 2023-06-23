@@ -4,8 +4,13 @@ const Dog = require('../models/dogmodel'); // Adjust the path and file name to p
 // Handler to get all posts
 exports.getPosts = async (req, res) => {
     try {
-        const posts = await Post.find();
-        res.status(200).json(posts);
+        if (req.query.dogId !== undefined) {
+            const posts = await Post.find({ dog: req.query.dogId });
+            res.status(200).json(posts);
+        } else { 
+            const posts = await Post.find();
+            res.status(200).json(posts);
+        }
     } catch (error) {
         res.status(500).json({ message: "Error retrieving posts", error: error });
     }
@@ -29,21 +34,23 @@ exports.getPostById = async (req, res) => {
 // Handler to create a new post
 exports.createPost = async (req, res) => {
     try {
-        console.log(req.body)
-        //Use the dog id to go and get the dog name from the db
-        dogData = await Dog.findById(req.body.dogId)
-        const newPost = new Post({
-            ...req.body,
-            dog: req.id,
-            author: dogData.name
-        });
-console.log (newPost);
-        const savedPost = await newPost.save();
-        res.status(201).json(savedPost);
+      const dogData = await Dog.findById(req.body.dogId);
+  
+      const newPost = new Post({
+        ...req.body,
+        dog: req.body.dogId,
+        author: dogData.name,
+      });
+      const savedPost = await newPost.save();
+  
+      dogData.posts.push(savedPost._id);
+      await dogData.save();
+  
+      res.status(201).json(savedPost);
     } catch (error) {
-        res.status(500).json({ message: "Error creating post", error: error });
+      res.status(500).json({ message: "Error creating post", error: error });
     }
-};
+  };
 
 // Handler to delete a post
 exports.deletePost = async (req, res) => {
