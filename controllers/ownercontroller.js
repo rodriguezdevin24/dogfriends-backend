@@ -1,5 +1,6 @@
 const ownermodel = require('../models/ownermodel');
 const bcrypt = require("bcrypt");
+const DogModel = require("../models/dogmodel")
 
 // Get all owners
 exports.getOwners = async (req, res) => {
