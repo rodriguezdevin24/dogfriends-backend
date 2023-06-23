@@ -29,19 +29,10 @@ exports.getPostById = async (req, res) => {
 // Handler to create a new post
 exports.createPost = async (req, res) => {
   try {
-    // console.log("Request Body:", req.body);
-    // console.log("Request File:", req.file); // Log the uploaded file object
-    // console.log("Request User:", req.user); // Log the user object from the request
-    // console.log("Request ID:", req.id); // Log the user id from the request
-    // console.log("Request Params:", req.params); // Log the user id from the request
-    // console.log("Request Data:", req.data); // Log the user id from the request
-    // console.log("Request Username:", req.username); // Log the user id from the request
     console.log('http://localhost:3500/' + req.file.path);
     const dogId = req.headers.dogid;
-    // console.log(req.headers);
-    // console.log("Dog ID:", dogId);
- 
 
+ 
     // Use the dog id to go and get the dog name from the db
     const dogData = await Dog.findById(dogId);
     if (!dogData) {
