@@ -48,8 +48,7 @@ exports.createDog = async (req, res) => {
             caption,
             breed,
             birthday,
-            owner: owner._id,
-            posts: []
+            owner: owner._id
         });
 
         res.status(200).json(newDog);

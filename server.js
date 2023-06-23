@@ -14,6 +14,8 @@ const app = express();
 app.use(express.json()); // Parse JSON request bodies
 app.use(cors());
 
+app.use('/uploads', express.static('uploads'));
+
 app.use('/api', ownerRoutes); // Use '/api/owners' for owner routes
 app.use('/api', postRoutes); // Use '/api/posts' for post routes
 app.use('/api', dogRoutes); // Use '/api/dogs' for dog routes

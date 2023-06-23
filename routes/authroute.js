@@ -84,6 +84,8 @@ router.post('/signup', async (req, res) => {
       status: 200,
       message: `Successfully created user: ${user.username}`,
       token,
+      // user: { id: user._id }, // Include the user ID
+      // dog: { id: dog._id }, // Include the dog ID
     });
   } catch (error) {
     res.status(400).json({
@@ -101,7 +103,8 @@ router.post('/signin', async (req, res) => {
     const { username, password } = req.body;
     // Get user's password hash
     const user = await User.findOne({ username: username });
-    
+    console.log("Hi")
+    console.log("Hi", user)
     // If no user is found, return an error
     if (!user) {
       return res.status(404).json({
@@ -126,6 +129,8 @@ router.post('/signin', async (req, res) => {
       id: user._id,
       username: user.username,
       exp: getExpiration(),
+      // user: { id: user._id }, // Include the user ID
+      // dog: { id: dog._id }, // Include the dog ID
     };
 
     // sign the jwt
@@ -136,6 +141,7 @@ router.post('/signin', async (req, res) => {
       status: 200,
       message: `Successfully signed in ${user.id}`,
       token: token,
+      user
     });
   } catch (error) {
     res.status(404).json({
