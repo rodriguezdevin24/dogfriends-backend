@@ -35,7 +35,11 @@ exports.getPostById = async (req, res) => {
 exports.createPost = async (req, res) => {
 
   try {
+    if (req.file) {
     console.log('http://localhost:3500/' + req.file.path);
+    }
+    console.log('Request body:', req.body);
+    console.log('Request headers:', req.headers);
     const dogId = req.headers.dogid;
  
     // Use the dog id to go and get the dog name from the db
@@ -43,22 +47,27 @@ exports.createPost = async (req, res) => {
     if (!dogData) {
       return res.status(404).json({ message: "Dog not found" });
     }
+
+    const photoPath = req.file ? req.file.path : null;
+
     const newPost = new Post({
       ...req.body,
       dog: dogId,
       author: dogData.name,
-      photo: req.file ? req.file.path : null, // Store the file path in the 'photo' field
+      photo: photoPath // Store the file path in the 'photo' field
     });
 
     // console.log(newPost);
 
     const savedPost = await newPost.save();
+    console.log('Post saved:', savedPost);
   
     dogData.posts.push(savedPost._id);
     await dogData.save();
     
     res.status(201).json(savedPost);
   } catch (error) {
+    console.log('Error details:', error);
     res.status(500).json({ message: "Error creating post", error: error });
   }
 };
