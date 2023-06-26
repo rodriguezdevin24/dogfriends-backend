@@ -58,7 +58,7 @@ exports.createPost = async (req, res) => {
       ...req.body,
       dog: dogId,
       author: dogData.name,
-      photo: photoUrl // Store the Cloudinary URL in the 'photo' field
+      photo: photoPath // Store the Cloudinary URL in the 'photo' field
     });
 
     const savedPost = await newPost.save();
