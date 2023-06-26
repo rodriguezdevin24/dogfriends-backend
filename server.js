@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 require('./db/connection.js');
+require('./config/cloudinaryConfig');
 const ownerRoutes = require('./routes/ownerroute.js');
 const postRoutes = require('./routes/postroute.js');
 const dogRoutes = require('./routes/dogroute.js');
