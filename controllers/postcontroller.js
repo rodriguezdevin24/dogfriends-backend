@@ -34,17 +34,6 @@ exports.getPostById = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
 // Handler to create a new post
 exports.createPost = async (req, res) => {
   try {
@@ -69,7 +58,7 @@ exports.createPost = async (req, res) => {
       ...req.body,
       dog: dogId,
       author: dogData.name,
-      photo: photoPath // Store the Cloudinary URL in the 'photo' field
+      photo: photoUrl // Store the Cloudinary URL in the 'photo' field
     });
 
     const savedPost = await newPost.save();
